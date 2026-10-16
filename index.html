@@ -87,9 +87,9 @@
       position: relative;
     }
 
-    /* Height set to 230px so the 4th item peeks out partially */
+    /* Height set so the 4th item peeks out partially */
     .scroll-playlist {
-      height: 230px;
+      height: 220px;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: #d97706 #16100c;
@@ -110,7 +110,7 @@
       border: 1px solid rgba(254, 243, 199, 0.3);
     }
 
-    /* Bottom Fade Shadow Mask to signal scrollable content below */
+    /* Bottom Fade Shadow Mask */
     .playlist-scroll-hint {
       position: absolute;
       bottom: 0;
@@ -124,16 +124,19 @@
       transition: opacity 0.3s ease;
     }
 
+    /* Embedded Category Tabs Styling */
     .cat-pill {
-      border: 1px solid rgba(120, 113, 108, 0.4);
-      background: rgba(22, 16, 12, 0.85);
-      transition: all 0.2s;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      background: rgba(15, 11, 8, 0.9);
+      color: #d6d3d1;
+      transition: all 0.2s ease;
     }
     .cat-pill.active {
-      background: #f59e0b;
-      color: #120e0b;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #0c0a09;
       font-weight: 800;
-      border-color: #fbbf24;
+      border-color: #fef3c7;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
     }
 
     /* Bottom Metallic Ad Box */
@@ -247,25 +250,28 @@
       </div>
     </div>
 
-    <!-- CATEGORY FILTERS -->
-    <div class="flex flex-wrap items-center justify-center gap-1.5 px-1">
-      <button data-cat="all" class="cat-pill active px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">All</button>
-      <button data-cat="hindi" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">Hindi</button>
-      <button data-cat="punjabi" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">Punjabi</button>
-      <button data-cat="haryanvi" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">Haryanvi</button>
-    </div>
-
-    <!-- PLAYLIST DRAWER WITH SCROLL INDICATORS -->
+    <!-- PLAYLIST DRAWER WITH INTEGRATED CATEGORY TABS -->
     <div class="playlist-drawer-wrapper">
-      <div class="dashboard-card p-3 flex flex-col gap-2 relative">
-        <!-- Playlist Header Badge -->
-        <div class="flex items-center justify-between px-1 border-b border-stone-800/80 pb-2">
-          <span class="text-[10px] font-mono tracking-widest text-amber-400 uppercase font-bold flex items-center gap-1.5">
-            <i class="fas fa-list-ul text-xs"></i> Highway Tracks
-          </span>
-          <span id="trackCountBadge" class="text-[10px] font-mono text-stone-400 flex items-center gap-1 bg-stone-900/90 px-2 py-0.5 rounded-full border border-stone-800">
-            10 Tracks • Scroll ⇣
-          </span>
+      <div class="dashboard-card p-3 flex flex-col gap-2.5 relative">
+        
+        <!-- Integrated Header & Category Bar -->
+        <div class="flex flex-col gap-2 border-b border-stone-800/80 pb-2.5">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[10px] font-mono tracking-widest text-amber-400 uppercase font-bold flex items-center gap-1.5">
+              <i class="fas fa-list-ul text-xs"></i> Highway Tracks
+            </span>
+            <span id="trackCountBadge" class="text-[10px] font-mono text-stone-400 flex items-center gap-1 bg-stone-900/90 px-2 py-0.5 rounded-full border border-stone-800">
+              10 Tracks • Scroll ⇣
+            </span>
+          </div>
+
+          <!-- Embedded Category Pills -->
+          <div class="flex items-center justify-between gap-1 mt-0.5">
+            <button data-cat="all" class="cat-pill active flex-1 py-1 rounded-xl text-[11px] font-semibold text-center">All</button>
+            <button data-cat="hindi" class="cat-pill flex-1 py-1 rounded-xl text-[11px] font-semibold text-center">Hindi</button>
+            <button data-cat="punjabi" class="cat-pill flex-1 py-1 rounded-xl text-[11px] font-semibold text-center">Punjabi</button>
+            <button data-cat="haryanvi" class="cat-pill flex-1 py-1 rounded-xl text-[11px] font-semibold text-center">Haryanvi</button>
+          </div>
         </div>
 
         <!-- Scrollable Track List Area -->
