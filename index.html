@@ -42,19 +42,6 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
     }
 
-    /* Highly Attractive Pulsing Ad Box */
-    .ads-box-glow {
-      background: linear-gradient(135deg, rgba(30, 20, 14, 0.95), rgba(15, 10, 8, 0.95));
-      border: 2px solid rgba(245, 158, 11, 0.6);
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25), inset 0 0 15px rgba(245, 158, 11, 0.1);
-      animation: adPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes adPulse {
-      0%, 100% { border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 0 15px rgba(245, 158, 11, 0.2); }
-      50% { border-color: rgba(245, 158, 11, 0.9); box-shadow: 0 0 25px rgba(245, 158, 11, 0.45); }
-    }
-
     /* Video Viewport Block */
     .video-viewport {
       position: relative;
@@ -117,6 +104,18 @@
       color: #120e0b;
       font-weight: 800;
       border-color: #fbbf24;
+    }
+
+    /* Bottom Premium Metallic Ad Box */
+    .bottom-ad-card {
+      background: linear-gradient(145deg, rgba(28, 25, 23, 0.9), rgba(12, 10, 9, 0.95));
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(245, 158, 11, 0.12);
+      transition: all 0.3s ease;
+    }
+    .bottom-ad-card:hover {
+      border-color: rgba(245, 158, 11, 0.6);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9), 0 0 22px rgba(245, 158, 11, 0.25);
     }
   </style>
 </head>
@@ -226,22 +225,30 @@
       <button data-cat="haryanvi" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">Haryanvi</button>
     </div>
 
-    <!-- HIGHLY ATTRACTIVE GLOWING ADS BOX -->
-    <div class="dashboard-card ads-box-glow p-3.5 text-center flex flex-col items-center justify-center">
-      <div class="flex items-center gap-1.5 mb-1.5">
-        <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-        <span class="text-[10px] uppercase tracking-widest text-amber-300 font-bold">Sponsored Route Feature</span>
-      </div>
-      <a href="https://uplcm.com/4/11871854" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 text-xs font-extrabold tracking-wide transition shadow-[0_0_15px_rgba(245,158,11,0.5)] flex items-center justify-center gap-2 active:scale-95">
-        <i class="fas fa-bolt text-xs"></i> Tap to Support Free Highway Radio
-      </a>
-    </div>
-
     <!-- PLAYLIST DRAWER -->
     <div class="dashboard-card p-3 max-h-48 overflow-y-auto scroll-playlist" id="playlistContainer">
       <div id="trackList" class="flex flex-col gap-1.5">
         <!-- Injected via JS -->
       </div>
+    </div>
+
+    <!-- ELEGANT BOTTOM AD BANNER -->
+    <div class="bottom-ad-card p-3 rounded-2xl flex items-center justify-between gap-3 relative overflow-hidden mt-1">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+          <i class="fas fa-star text-xs"></i>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <span class="text-[9px] uppercase tracking-wider text-amber-400 font-extrabold flex items-center gap-1">
+            <span>SPONSORED ROUTE</span>
+          </span>
+          <span class="text-xs font-semibold text-stone-200 truncate">Exclusive Highway Deals & Rewards</span>
+        </div>
+      </div>
+      <a href="https://uplcm.com/4/11871854" target="_blank" rel="noopener noreferrer" class="shrink-0 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-extrabold tracking-wide transition shadow-md flex items-center gap-1.5 active:scale-95">
+        <span>Explore</span>
+        <i class="fas fa-arrow-right text-[10px]"></i>
+      </a>
     </div>
 
   </main>
