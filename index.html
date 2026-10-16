@@ -21,15 +21,18 @@
     }
 
     /* Immersive Midnight Highway Background */
-    .highway-bg {
-      background: linear-gradient(180deg, #1c140f 0%, #0c0a09 40%, #050505 100%);
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-    }
+    /* Lightweight Red + Blue + Black Highway Background */
+.highway-bg {
+  background: radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.25) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.25) 0%, transparent 50%),
+              linear-gradient(180deg, #09090b 0%, #030712 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
 
     /* Sleek Solid Dashboard Card Container with Premium Glow */
     .dashboard-card {
