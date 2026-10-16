@@ -11,19 +11,18 @@
   <!-- Google Fonts: Outfit -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    body {
+  body {
       font-family: 'Outfit', sans-serif;
       margin: 0;
       min-height: 100vh;
-      /* Corrected warm highway asphalt gradient background color */
-      background-color: #120e0b;
+      background-color: #0c0a09;
       color: #f5f5f4;
       overflow-x: hidden;
     }
 
-    /* Rich Warm Highway Background Texture */
+    /* Immersive Midnight Highway Background */
     .highway-bg {
-      background: radial-gradient(circle at 50% 30%, #221913 0%, #120e0b 60%, #0a0705 100%);
+      background: linear-gradient(180deg, #1c140f 0%, #0c0a09 40%, #050505 100%);
       position: fixed;
       top: 0;
       left: 0;
@@ -32,14 +31,15 @@
       z-index: -2;
     }
 
-    /* Dashboard Card Container */
+    /* Sleek Solid Dashboard Card Container with Premium Glow */
     .dashboard-card {
-      background: rgba(22, 16, 12, 0.94);
-      border: 2px dashed rgba(245, 158, 11, 0.45);
+      background: rgba(20, 15, 12, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(245, 158, 11, 0.35);
       border-radius: 1.75rem;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
     }
-
     /* Video Viewport Block */
     .video-viewport {
       position: relative;
