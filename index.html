@@ -166,13 +166,28 @@
           <span id="duration">0:00</span>
         </div>
 
-        <div class="flex items-center justify-center gap-6 mt-1">
+        <div class="flex items-center justify-center gap-4 mt-1">
+          <!-- Previous Button -->
           <button id="prevBtn" class="w-10 h-10 rounded-xl bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 transition flex items-center justify-center">
             <i class="fas fa-backward text-xs"></i>
           </button>
+          
+          <!-- Rewind 3s Button -->
+          <button id="rewindBtn" class="w-10 h-10 rounded-xl bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 transition flex items-center justify-center text-xs font-mono font-bold" title="Rewind 3 Seconds">
+            ⟲3s
+          </button>
+
+          <!-- Play / Pause Button -->
           <button id="playPauseBtn" class="w-14 h-14 rounded-2xl bg-amber-500 hover:bg-amber-400 text-stone-950 transition flex items-center justify-center text-xl shadow-lg active:scale-95">
             <i class="fas fa-play"></i>
           </button>
+
+          <!-- Fast-Forward 3s Button -->
+          <button id="forwardBtn" class="w-10 h-10 rounded-xl bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 transition flex items-center justify-center text-xs font-mono font-bold" title="Forward 3 Seconds">
+            3s⟳
+          </button>
+
+          <!-- Next Button -->
           <button id="nextBtn" class="w-10 h-10 rounded-xl bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 transition flex items-center justify-center">
             <i class="fas fa-forward text-xs"></i>
           </button>
@@ -205,72 +220,74 @@
   <script>
     (function() {
       const playlist = [
-  {
-    title: "Mujhse Mohabbat Ka",
-    artist: "Kumar Sanu, Alka Yagnik",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song1.mp3.mp3"
-  },
-  {
-    title: "Barsaat Ke Mausam Mein",
-    artist: "Roop Kumar Rathod",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song2.mp3.mp3"
-  },
-  {
-    title: "Tera Naam Liya",
-    artist: "Manhar Udhas, Anuradha Paudwal",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song3.mp3.mp3"
-  },
-  {
-    title: "Jo Bhi Kasmein",
-    artist: "Alka Yagnik, Udit Narayan",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song4.mp3.mp3"
-  },
-  {
-    title: "Bol Bol Bol Tujhko Kya Chahiye",
-    artist: "Evergreen Bollywood",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song5.mp3.mp3"
-  },
-  {
-    title: "Aakhir Tumhein Aana Hai",
-    artist: "Udit Narayan, Sapna Mukherjee",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song6.mp3.mp3"
-  },
-  {
-    title: "Tere Mathe Ki Bindiya",
-    artist: "Shemaroo Musical",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song7.mp3.mp3"
-  },
-  {
-    title: "Mere Mehboob Qayamat Hogi",
-    artist: "Kishore Kumar",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song8.mp3.mp3"
-  },
-  {
-    title: "Dil Ne Yeh Kaha Hain Dil Se",
-    artist: "Udit Narayan, Alka Yagnik, Sonu Nigam",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song9.mp3.mp3"
-  },
-  {
-    title: "Tere Ishq Mein Naachenge",
-    artist: "Udit Narayan",
-    category: "hindi",
-    src: "https://archive.org/download/song5.mp3/songs/song10.mp3.mp3"
-  }
-];
+        {
+          title: "Mujhse Mohabbat Ka",
+          artist: "Kumar Sanu, Alka Yagnik",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song1.mp3.mp3"
+        },
+        {
+          title: "Barsaat Ke Mausam Mein",
+          artist: "Roop Kumar Rathod",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song2.mp3.mp3"
+        },
+        {
+          title: "Tera Naam Liya",
+          artist: "Manhar Udhas, Anuradha Paudwal",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song3.mp3.mp3"
+        },
+        {
+          title: "Jo Bhi Kasmein",
+          artist: "Alka Yagnik, Udit Narayan",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song4.mp3.mp3"
+        },
+        {
+          title: "Bol Bol Bol Tujhko Kya Chahiye",
+          artist: "Evergreen Bollywood",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song5.mp3.mp3"
+        },
+        {
+          title: "Aakhir Tumhein Aana Hai",
+          artist: "Udit Narayan, Sapna Mukherjee",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song6.mp3.mp3"
+        },
+        {
+          title: "Tere Mathe Ki Bindiya",
+          artist: "Shemaroo Musical",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song7.mp3.mp3"
+        },
+        {
+          title: "Mere Mehboob Qayamat Hogi",
+          artist: "Kishore Kumar",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song8.mp3.mp3"
+        },
+        {
+          title: "Dil Ne Yeh Kaha Hain Dil Se",
+          artist: "Udit Narayan, Alka Yagnik, Sonu Nigam",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song9.mp3.mp3"
+        },
+        {
+          title: "Tere Ishq Mein Naachenge",
+          artist: "Udit Narayan",
+          category: "hindi",
+          src: "https://archive.org/download/song5.mp3/songs/song10.mp3.mp3"
+        }
+      ];
 
       const audio = document.getElementById('audioPlayer');
       const playPauseBtn = document.getElementById('playPauseBtn');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
+      const rewindBtn = document.getElementById('rewindBtn');
+      const forwardBtn = document.getElementById('forwardBtn');
       const trackTitleSpan = document.getElementById('nowPlayingTitle');
       const trackArtistSpan = document.getElementById('nowPlayingArtist');
       const seekSlider = document.getElementById('seekSlider');
@@ -440,6 +457,15 @@
       playPauseBtn.addEventListener('click', togglePlayPause);
       nextBtn.addEventListener('click', playNext);
       prevBtn.addEventListener('click', playPrev);
+
+      // 3 Seconds Rewind & Forward Listeners
+      rewindBtn.addEventListener('click', () => {
+        audio.currentTime = Math.max(0, audio.currentTime - 3);
+      });
+
+      forwardBtn.addEventListener('click', () => {
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 3);
+      });
 
       categoryButtons.forEach(btn => {
         btn.addEventListener('click', () => {
