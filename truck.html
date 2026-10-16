@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bus Driver's Playlist · Desi Highway Radio</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Fonts: Outfit -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      /* Corrected warm highway asphalt gradient background color */
+      background-color: #120e0b;
+      color: #f5f5f4;
+      overflow-x: hidden;
+    }
+
+    /* Rich Warm Highway Background Texture */
+    .highway-bg {
+      background: radial-gradient(circle at 50% 30%, #221913 0%, #120e0b 60%, #0a0705 100%);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+
+    /* Dashboard Card Container */
+    .dashboard-card {
+      background: rgba(22, 16, 12, 0.94);
+      border: 2px dashed rgba(245, 158, 11, 0.45);
+      border-radius: 1.75rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Video Viewport Block */
+    .video-viewport {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: #000;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .video-viewport video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Horn Button Styling */
+    .horn-btn {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      box-shadow: 0 4px 15px rgba(217, 119, 6, 0.5);
+      border: 1px solid #fef3c7;
+      transition: all 0.1s ease;
+    }
+    .horn-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Playlist item styling */
+    .track-item {
+      transition: all 0.2s;
+      border-left: 4px solid transparent;
+      background: rgba(28, 20, 15, 0.7);
+    }
+    .track-item.active {
+      background: rgba(245, 158, 11, 0.2);
+      border-left-color: #f59e0b;
+      border-color: rgba(245, 158, 11, 0.5);
+    }
+
+    /* Custom Scrollbar */
+    .scroll-playlist::-webkit-scrollbar {
+      width: 5px;
+    }
+    .scroll-playlist::-webkit-scrollbar-track {
+      background: #16100c;
+    }
+    .scroll-playlist::-webkit-scrollbar-thumb {
+      background: #d97706;
+      border-radius: 10px;
+    }
+
+    .cat-pill {
+      border: 1px solid rgba(120, 113, 108, 0.4);
+      background: rgba(22, 16, 12, 0.85);
+      transition: all 0.2s;
+    }
+    .cat-pill.active {
+      background: #f59e0b;
+      color: #120e0b;
+      font-weight: 800;
+      border-color: #fbbf24;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-between min-h-screen p-3">
+
+  <div class="highway-bg"></div>
+
+  <!-- TOP HEADER: BUS DRIVER'S PLAYLIST ONLY -->
+  <header class="w-full max-w-md mx-auto flex flex-col items-center text-center py-4">
+    <div class="bg-amber-500 text-stone-950 font-black text-[10px] px-3.5 py-1 rounded-full uppercase tracking-widest shadow-md mb-2 flex items-center gap-1.5">
+      <span>HORN OK PLEASE</span> <span>📯</span> <span>🚌</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-black text-amber-400 tracking-wide drop-shadow-[0_0_15px_rgba(245,158,11,0.4)]">
+      Bus Driver's Playlist
+    </h1>
+    <p class="text-stone-400 text-xs mt-1 tracking-wider font-medium">
+      Non-Stop Highway Retro & Punjabi Beats
+    </p>
+  </header>
+
+  <!-- MAIN PLAYER CONTAINER -->
+  <main class="w-full max-w-md z-10 flex flex-col gap-3 my-auto">
+
+    <div class="dashboard-card p-4 flex flex-col gap-4 relative">
+      
+      <!-- VIDEO VIEWPORT BLOCK -->
+      <div class="video-viewport">
+        <video autoplay muted loop playsinline>
+          <source src="grok-video-a4a452ca-333a-4a77-ba4e-deb50ac53b9a.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="absolute top-2 left-2 text-[9px] text-amber-300 font-mono tracking-widest uppercase bg-stone-950/80 px-2 py-0.5 rounded border border-amber-500/30 z-10 pointer-events-none">
+          NH-1 LIVE ROUTE
+        </div>
+      </div>
+
+      <!-- Current Track Info & Horn Button Row -->
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <div id="nowPlayingTitle" class="text-base font-bold text-amber-100 truncate">
+            Highway Nights
+          </div>
+          <div id="nowPlayingArtist" class="text-xs text-stone-400 truncate mt-0.5">
+            Bus Driver's Playlist
+          </div>
+        </div>
+        <!-- Horn Button -->
+        <button id="hornButton" class="horn-btn rounded-xl px-3.5 py-2.5 flex flex-col items-center justify-center text-stone-950 font-black text-xs shrink-0 focus:outline-none">
+          <i class="fas fa-bullhorn text-sm mb-0.5"></i>
+          HORN
+        </button>
+      </div>
+
+      <!-- Hidden Audio Element -->
+      <audio id="audioPlayer" preload="metadata"></audio>
+
+      <!-- Seek Bar & Transport Controls -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-xs text-stone-400 font-mono">
+          <span id="currentTime">0:00</span>
+          <input type="range" id="seekSlider" value="0" min="0" max="100" step="0.1" class="flex-1 h-1.5 rounded-full bg-stone-900 appearance-none cursor-pointer accent-amber-500">
+          <span id="duration">0:00</span>
+        </div>
+
+        <div class="flex items-center justify-center gap-6 mt-1">
+          <button id="prevBtn" class="w-10 h-10 rounded-xl bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 transition flex items-center justify-center">
+            <i class="fas fa-backward text-xs"></i>
+          </button>
+          <button id="playPauseBtn" class="w-14 h-14 rounded-2xl bg-amber-500 hover:bg-amber-400 text-stone-950 transition flex items-center justify-center text-xl shadow-lg active:scale-95">
+            <i class="fas fa-play"></i>
+          </button>
+          <button id="nextBtn" class="w-10 h-10 rounded-xl bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 transition flex items-center justify-center">
+            <i class="fas fa-forward text-xs"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORY FILTERS -->
+    <div class="flex flex-wrap items-center justify-center gap-1.5 px-1">
+      <button data-cat="all" class="cat-pill active px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">All</button>
+      <button data-cat="hindi" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">Hindi</button>
+      <button data-cat="punjabi" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">Punjabi</button>
+      <button data-cat="haryanvi" class="cat-pill px-3 py-1.5 rounded-xl text-xs font-semibold text-stone-300">Haryanvi</button>
+    </div>
+
+    <!-- PLAYLIST DRAWER -->
+    <div class="dashboard-card p-3 max-h-48 overflow-y-auto scroll-playlist" id="playlistContainer">
+      <div id="trackList" class="flex flex-col gap-1.5">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="text-center text-[10px] text-stone-500 tracking-widest z-10 font-mono py-2 uppercase">
+    Built for Highway Lovers • 100% Free Web Radio
+  </footer>
+
+  <script>
+    (function() {
+      const playlist = [
+  {
+    title: "Mujhse Mohabbat Ka",
+    artist: "Kumar Sanu, Alka Yagnik",
+    category: "hindi",
+    src: "songs/song1.mp3"
+  },
+  {
+    title: "Barsaat Ke Mausam Mein",
+    artist: "Roop Kumar Rathod",
+    category: "hindi",
+    src: "songs/song2.mp3"
+  },
+  {
+    title: "Tera Naam Liya",
+    artist: "Manhar Udhas, Anuradha Paudwal",
+    category: "hindi",
+    src: "songs/song3.mp3"
+  },
+  {
+    title: "Jo Bhi Kasmein",
+    artist: "Alka Yagnik, Udit Narayan",
+    category: "hindi",
+    src: "songs/song4.mp3"
+  },
+  {
+    title: "Bol Bol Bol Tujhko Kya Chahiye",
+    artist: "Evergreen Bollywood",
+    category: "hindi",
+    src: "songs/song5.mp3"
+  },
+  {
+    title: "Aakhir Tumhein Aana Hai",
+    artist: "Udit Narayan, Sapna Mukherjee",
+    category: "hindi",
+    src: "songs/song6.mp3"
+  },
+  {
+    title: "Tere Mathe Ki Bindiya",
+    artist: "Shemaroo Musical",
+    category: "hindi",
+    src: "songs/song7.mp3"
+  },
+  {
+    title: "Mere Mehboob Qayamat Hogi",
+    artist: "Kishore Kumar",
+    category: "hindi",
+    src: "songs/song8.mp3"
+  },
+  {
+    title: "Dil Ne Yeh Kaha Hain Dil Se",
+    artist: "Udit Narayan, Alka Yagnik, Sonu Nigam",
+    category: "hindi",
+    src: "songs/song9.mp3"
+  },
+  {
+    title: "Tere Ishq Mein Naachenge",
+    artist: "Udit Narayan",
+    category: "hindi",
+    src: "songs/song10.mp3"
+  }
+];
+
+      const audio = document.getElementById('audioPlayer');
+      const playPauseBtn = document.getElementById('playPauseBtn');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const trackTitleSpan = document.getElementById('nowPlayingTitle');
+      const trackArtistSpan = document.getElementById('nowPlayingArtist');
+      const seekSlider = document.getElementById('seekSlider');
+      const currentTimeSpan = document.getElementById('currentTime');
+      const durationSpan = document.getElementById('duration');
+      const trackListContainer = document.getElementById('trackList');
+      const categoryButtons = document.querySelectorAll('.cat-pill');
+      const hornButton = document.getElementById('hornButton');
+
+      let currentTrackIndex = 0;
+      let isPlaying = false;
+      let currentFilter = 'all';
+      let filteredIndices = [];
+
+      function formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+      }
+
+      function updateFilteredIndices() {
+        filteredIndices = [];
+        playlist.forEach((track, idx) => {
+          if (currentFilter === 'all' || track.category === currentFilter) {
+            filteredIndices.push(idx);
+          }
+        });
+        if (filteredIndices.length > 0 && !filteredIndices.includes(currentTrackIndex)) {
+          currentTrackIndex = filteredIndices[0];
+          loadTrack(currentTrackIndex, false);
+        }
+        renderTrackList();
+      }
+
+      function renderTrackList() {
+        trackListContainer.innerHTML = '';
+        if (filteredIndices.length === 0) {
+          trackListContainer.innerHTML = '<div class="text-center text-stone-500 py-3 text-xs">No tracks found</div>';
+          return;
+        }
+        filteredIndices.forEach((idx) => {
+          const track = playlist[idx];
+          const isActive = (idx === currentTrackIndex);
+          const div = document.createElement('div');
+          div.className = `track-item flex items-center justify-between p-2.5 rounded-xl cursor-pointer text-xs ${isActive ? 'active' : ''}`;
+          div.dataset.index = idx;
+          div.innerHTML = `
+            <div class="flex items-center gap-2.5 min-w-0">
+              <i class="fas ${isActive && isPlaying ? 'fa-volume-up text-amber-400' : 'fa-music text-stone-500'} w-4"></i>
+              <div class="truncate">
+                <div class="font-semibold text-stone-200 truncate">${track.title}</div>
+                <div class="text-[10px] text-stone-400 truncate">${track.artist}</div>
+              </div>
+            </div>
+            <span class="text-[9px] uppercase px-2 py-0.5 rounded bg-stone-900 text-stone-400 border border-stone-800">${track.category}</span>
+          `;
+          div.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const newIndex = parseInt(div.dataset.index);
+            if (newIndex !== currentTrackIndex) {
+              currentTrackIndex = newIndex;
+              loadTrack(currentTrackIndex, true);
+            } else {
+              togglePlayPause();
+            }
+          });
+          trackListContainer.appendChild(div);
+        });
+      }
+
+      function loadTrack(index, autoPlay = false) {
+        if (index < 0 || index >= playlist.length) return;
+        const track = playlist[index];
+        audio.src = track.src;
+        trackTitleSpan.textContent = track.title;
+        trackArtistSpan.textContent = track.artist;
+        currentTrackIndex = index;
+        renderTrackList();
+
+        if (autoPlay) {
+          audio.play().then(() => {
+            isPlaying = true;
+            updatePlayPauseIcon();
+          }).catch(() => {
+            isPlaying = false;
+            updatePlayPauseIcon();
+          });
+        } else {
+          if (!audio.paused) {
+            audio.pause();
+            isPlaying = false;
+            updatePlayPauseIcon();
+          }
+        }
+        seekSlider.value = 0;
+        currentTimeSpan.textContent = '0:00';
+      }
+
+      function updatePlayPauseIcon() {
+        playPauseBtn.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+        renderTrackList();
+      }
+
+      function togglePlayPause() {
+        if (audio.src === '' || audio.src === window.location.href) {
+          if (filteredIndices.length > 0) {
+            currentTrackIndex = filteredIndices[0];
+            loadTrack(currentTrackIndex, true);
+          }
+          return;
+        }
+        if (isPlaying) {
+          audio.pause();
+          isPlaying = false;
+        } else {
+          audio.play().then(() => {
+            isPlaying = true;
+          }).catch(() => {
+            isPlaying = false;
+          });
+        }
+        updatePlayPauseIcon();
+      }
+
+      function playNext() {
+        if (filteredIndices.length === 0) return;
+        const currentPos = filteredIndices.indexOf(currentTrackIndex);
+        let nextPos = (currentPos + 1) % filteredIndices.length;
+        currentTrackIndex = filteredIndices[nextPos];
+        loadTrack(currentTrackIndex, true);
+      }
+
+      function playPrev() {
+        if (filteredIndices.length === 0) return;
+        const currentPos = filteredIndices.indexOf(currentTrackIndex);
+        let prevPos = (currentPos - 1 + filteredIndices.length) % filteredIndices.length;
+        currentTrackIndex = filteredIndices[prevPos];
+        loadTrack(currentTrackIndex, true);
+      }
+
+      audio.addEventListener('timeupdate', () => {
+        if (!isNaN(audio.duration)) {
+          const percent = (audio.currentTime / audio.duration) * 100;
+          seekSlider.value = percent;
+          currentTimeSpan.textContent = formatTime(audio.currentTime);
+          durationSpan.textContent = formatTime(audio.duration);
+        }
+      });
+
+      audio.addEventListener('loadedmetadata', () => {
+        durationSpan.textContent = formatTime(audio.duration);
+        seekSlider.value = 0;
+        currentTimeSpan.textContent = '0:00';
+      });
+
+      audio.addEventListener('ended', playNext);
+      audio.addEventListener('pause', () => { isPlaying = false; updatePlayPauseIcon(); });
+      audio.addEventListener('play', () => { isPlaying = true; updatePlayPauseIcon(); });
+
+      seekSlider.addEventListener('input', (e) => {
+        if (!isNaN(audio.duration)) {
+          audio.currentTime = (e.target.value / 100) * audio.duration;
+        }
+      });
+
+      playPauseBtn.addEventListener('click', togglePlayPause);
+      nextBtn.addEventListener('click', playNext);
+      prevBtn.addEventListener('click', playPrev);
+
+      categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoryButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.cat;
+          updateFilteredIndices();
+        });
+      });
+
+      function playHorn() {
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContext) return;
+          const ctx = new AudioContext();
+          const osc1 = ctx.createOscillator();
+          const osc2 = ctx.createOscillator();
+          const gainNode = ctx.createGain();
+
+          osc1.type = 'sawtooth';
+          osc1.frequency.value = 420;
+          osc2.type = 'sawtooth';
+          osc2.frequency.value = 520;
+
+          const lfo = ctx.createOscillator();
+          lfo.type = 'sine';
+          lfo.frequency.value = 12;
+          const lfoGain = ctx.createGain();
+          lfoGain.gain.value = 15;
+          lfo.connect(lfoGain);
+          lfoGain.connect(osc1.frequency);
+          lfoGain.connect(osc2.frequency);
+          lfo.start();
+
+          gainNode.gain.setValueAtTime(0.0001, ctx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.7, ctx.currentTime + 0.03);
+          gainNode.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+
+          osc1.connect(gainNode);
+          osc2.connect(gainNode);
+          gainNode.connect(ctx.destination);
+
+          osc1.start();
+          osc2.start();
+          osc1.stop(ctx.currentTime + 0.5);
+          osc2.stop(ctx.currentTime + 0.5);
+
+          setTimeout(() => { ctx.close(); }, 600);
+        } catch (e) {
+          console.warn("Horn error:", e);
+        }
+      }
+
+      hornButton.addEventListener('click', playHorn);
+
+      function init() {
+        currentFilter = 'all';
+        updateFilteredIndices();
+        if (filteredIndices.length > 0) {
+          currentTrackIndex = filteredIndices[0];
+          loadTrack(currentTrackIndex, false);
+        }
+        updatePlayPauseIcon();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
