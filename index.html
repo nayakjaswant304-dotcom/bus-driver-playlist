@@ -82,12 +82,11 @@
       border-color: rgba(245, 158, 11, 0.5);
     }
 
-    /* IMPROVED PLAYLIST CONTAINER & SCROLLBAR */
+    /* PLAYLIST CONTAINER & SCROLLBAR */
     .playlist-drawer-wrapper {
       position: relative;
     }
 
-    /* Height set so the 4th item peeks out partially */
     .scroll-playlist {
       height: 220px;
       overflow-y: auto;
@@ -110,7 +109,6 @@
       border: 1px solid rgba(254, 243, 199, 0.3);
     }
 
-    /* Bottom Fade Shadow Mask */
     .playlist-scroll-hint {
       position: absolute;
       bottom: 0;
@@ -208,9 +206,9 @@
         </div>
       </div>
 
-      <!-- Hidden Audio Elements with Real Archive Links -->
+      <!-- Hidden Audio Element for Music Player -->
       <audio id="audioPlayer" preload="metadata"></audio>
-      
+
       <!-- Seek Bar & Transport Controls -->
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2 text-xs text-stone-400 font-mono">
@@ -376,8 +374,6 @@
       ];
 
       const audio = document.getElementById('audioPlayer');
-      const hornAudio1 = document.getElementById('hornAudioPlayer1');
-      const hornAudio2 = document.getElementById('hornAudioPlayer2');
       
       const playPauseBtn = document.getElementById('playPauseBtn');
       const prevBtn = document.getElementById('prevBtn');
@@ -403,6 +399,45 @@
       let currentFilter = 'all';
       let filteredIndices = [];
 
+      // Built-in Web Audio API Truck Horn Synthesizer
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+      function playTruckHorn(type) {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        if (type === 1) {
+          osc1.type = 'sawtooth';
+          osc1.frequency.setValueAtTime(150, audioCtx.currentTime);
+          osc2.type = 'square';
+          osc2.frequency.setValueAtTime(225, audioCtx.currentTime);
+        } else {
+          osc1.type = 'sawtooth';
+          osc1.frequency.setValueAtTime(280, audioCtx.currentTime);
+          osc2.type = 'sawtooth';
+          osc2.frequency.setValueAtTime(350, audioCtx.currentTime);
+        }
+
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+
+        osc1.start();
+        osc2.start();
+        osc1.stop(audioCtx.currentTime + 0.8);
+        osc2.stop(audioCtx.currentTime + 0.8);
+      }
+
+      horn1Btn.addEventListener('click', () => playTruckHorn(1));
+      horn2Btn.addEventListener('click', () => playTruckHorn(2));
+
       function formatTime(seconds) {
         if (isNaN(seconds)) return '0:00';
         const mins = Math.floor(seconds / 60);
@@ -418,7 +453,6 @@
           }
         });
 
-        // Update badge text dynamically
         if (trackCountBadge) {
           trackCountBadge.innerHTML = filteredIndices.length > 3 
             ? `${filteredIndices.length} Tracks • Scroll ⇣` 
@@ -601,53 +635,18 @@
         });
       });
 
-      // Exclusive Horn Audio Handlers
-     // Built-in Web Audio API Truck Horn Synthesizer (100% Reliable, Zero External Files)
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      function init() {
+        currentFilter = 'all';
+        updateFilteredIndices();
+        if (filteredIndices.length > 0) {
+          currentTrackIndex = filteredIndices[0];
+          loadTrack(currentTrackIndex, false);
+        }
+        updatePlayPauseIcon();
+      }
 
-function playTruckHorn(type) {
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
-  
-  const osc1 = audioCtx.createOscillator();
-  const osc2 = audioCtx.createOscillator();
-  const gainNode = audioCtx.createGain();
-
-  osc1.connect(gainNode);
-  osc2.connect(gainNode);
-  gainNode.connect(audioCtx.destination);
-
-  if (type === 1) {
-    // Deep Dual-Tone Air Horn
-    osc1.type = 'sawtooth';
-    osc1.frequency.setValueAtTime(150, audioCtx.currentTime);
-    osc2.type = 'square';
-    osc2.frequency.setValueAtTime(225, audioCtx.currentTime);
-  } else {
-    // High-Pitch Compressed Air Horn
-    osc1.type = 'sawtooth';
-    osc1.frequency.setValueAtTime(280, audioCtx.currentTime);
-    osc2.type = 'sawtooth';
-    osc2.frequency.setValueAtTime(350, audioCtx.currentTime);
-  }
-
-  gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
-
-  osc1.start();
-  osc2.start();
-  osc1.stop(audioCtx.currentTime + 0.8);
-  osc2.stop(audioCtx.currentTime + 0.8);
-}
-
-horn1Btn.addEventListener('click', () => {
-  playTruckHorn(1);
-});
-
-horn2Btn.addEventListener('click', () => {
-  playTruckHorn(2);
-});
+      init();
+    })();
   </script>
 </body>
 </html>
