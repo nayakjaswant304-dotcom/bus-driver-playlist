@@ -210,9 +210,7 @@
 
       <!-- Hidden Audio Elements with Real Archive Links -->
       <audio id="audioPlayer" preload="metadata"></audio>
-      <audio id="hornAudioPlayer1" preload="auto" src="https://archive.org/download/truck-horn-viral-sound-video-viralshort-truck-horn-truckhorns-trendingshorts-fun/Horn/truck%20horn%20viral%20Sound%20video%20_viralshort%20_truck%20_horn%20_truckhorns%20_trendingshorts%20_funniestvideo%28MP3_320K%29.mp3"></audio>
-      <audio id="hornAudioPlayer2" preload="auto" src="https://archive.org/download/truck-horn-viral-sound-video-viralshort-truck-horn-truckhorns-trendingshorts-fun/Horn/%E2%9D%A4%EF%B8%8F_%F0%9F%94%A5Roots%206pipe%20horn%F0%9F%92%A5%20_compressor%20with%20tank%20for%20oil%20brake%20vehicles%20Dm%209585212690%20_rootshorn%28MP3_320K%29.mp3"></audio>
-
+      
       <!-- Seek Bar & Transport Controls -->
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2 text-xs text-stone-400 font-mono">
@@ -604,34 +602,52 @@
       });
 
       // Exclusive Horn Audio Handlers
-      horn1Btn.addEventListener('click', () => {
-        hornAudio2.pause();
-        hornAudio2.currentTime = 0;
-        
-        hornAudio1.currentTime = 0;
-        hornAudio1.play().catch(e => console.log("Horn 1 play error:", e));
-      });
+     // Built-in Web Audio API Truck Horn Synthesizer (100% Reliable, Zero External Files)
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-      horn2Btn.addEventListener('click', () => {
-        hornAudio1.pause();
-        hornAudio1.currentTime = 0;
+function playTruckHorn(type) {
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  const osc1 = audioCtx.createOscillator();
+  const osc2 = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
 
-        hornAudio2.currentTime = 0;
-        hornAudio2.play().catch(e => console.log("Horn 2 play error:", e));
-      });
+  osc1.connect(gainNode);
+  osc2.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
 
-      function init() {
-        currentFilter = 'all';
-        updateFilteredIndices();
-        if (filteredIndices.length > 0) {
-          currentTrackIndex = filteredIndices[0];
-          loadTrack(currentTrackIndex, false);
-        }
-        updatePlayPauseIcon();
-      }
+  if (type === 1) {
+    // Deep Dual-Tone Air Horn
+    osc1.type = 'sawtooth';
+    osc1.frequency.setValueAtTime(150, audioCtx.currentTime);
+    osc2.type = 'square';
+    osc2.frequency.setValueAtTime(225, audioCtx.currentTime);
+  } else {
+    // High-Pitch Compressed Air Horn
+    osc1.type = 'sawtooth';
+    osc1.frequency.setValueAtTime(280, audioCtx.currentTime);
+    osc2.type = 'sawtooth';
+    osc2.frequency.setValueAtTime(350, audioCtx.currentTime);
+  }
 
-      init();
-    })();
+  gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+
+  osc1.start();
+  osc2.start();
+  osc1.stop(audioCtx.currentTime + 0.8);
+  osc2.stop(audioCtx.currentTime + 0.8);
+}
+
+horn1Btn.addEventListener('click', () => {
+  playTruckHorn(1);
+});
+
+horn2Btn.addEventListener('click', () => {
+  playTruckHorn(2);
+});
   </script>
 </body>
 </html>
